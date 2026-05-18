@@ -307,7 +307,7 @@
         <div class="container">
             <div class="title">
                 <h2>Pilihan Modul Pembelajaran</h2>
-                <p>Pilih topik yang ingin kamu kuasai hari ini</p>
+                <p>Pilih topik yang ingin kamu kuasai</p>
             </div>
             <div class="row g-4">
                 <div class="col-md-4">
@@ -341,8 +341,8 @@
     <section class="stats-section section-padding">
     <div class="container">
         <div class="title text-center text-white">
-            <h2 class="text-white">Statistik Belajar EduGame</h2>
-            <p class="text-white-50">Perkembangan platform akademi kami sejauh ini</p>
+            <h2 class="text-white">Statistik EduGame</h2>
+            <p class="text-white-50">Perkembangan platform kami sejauh ini</p>
         </div>
         
         <div class="row g-4 justify-content-center">

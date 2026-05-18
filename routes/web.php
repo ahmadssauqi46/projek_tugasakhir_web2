@@ -22,6 +22,12 @@ Route::get('/materi/jaringan', [MateriController::class, 'jaringan']);
 
 Route::get('/quiz', [QuizController::class, 'index']);
 
-Route::get('/quiz/hardware', [QuizController::class, 'hardware']);
-Route::get('/quiz/software', [QuizController::class, 'software']);
-Route::get('/quiz/jaringan', [QuizController::class, 'jaringan']);
+Route::post('/quiz/submit', [App\Http\Controllers\QuizController::class, 'submitQuiz']);
+
+Route::get('/quiz/hardware', [App\Http\Controllers\QuizController::class, 'hardwareQuiz']);
+Route::get('/quiz/software', [App\Http\Controllers\QuizController::class, 'softwareQuiz']);
+Route::get('/quiz/jaringan', [App\Http\Controllers\QuizController::class, 'jaringanQuiz']);
+
+Route::get('/game/hardware', [App\Http\Controllers\QuizController::class, 'hardwareGame']);
+Route::get('/game/software', [App\Http\Controllers\QuizController::class, 'softwareGame']);
+Route::get('/game/jaringan', [App\Http\Controllers\QuizController::class, 'jaringanGame']);

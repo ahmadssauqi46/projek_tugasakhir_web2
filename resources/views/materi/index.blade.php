@@ -9,31 +9,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        *{
+        * {
             font-family: 'Poppins', sans-serif;
         }
 
-        body{
+        body {
             background: #f5f7ff;
         }
 
-        .navbar{
-            background: #4f46e5;
+        /* Style Kustom Navbar EduGame Terdahulu */
+        .navbar-custom {
+            background-color: #4f46e5;
+            padding: 15px 0;
         }
 
-        .navbar-brand,
-        .nav-link{
+        .navbar-custom .navbar-brand {
             color: white !important;
+            font-weight: 600;
+            font-size: 24px;
         }
 
-        .header{
-            padding: 120px 0 50px;
+        .navbar-custom .nav-link {
+            color: white !important;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .navbar-custom .nav-link:hover {
+            opacity: 1;
+        }
+
+        .header {
+            padding: 60px 0 50px;
             text-align: center;
-            background: linear-gradient(135deg,#4f46e5,#7c3aed);
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
             color: white;
         }
 
-        .materi-card{
+        .materi-card {
             background: white;
             border-radius: 20px;
             padding: 30px;
@@ -42,11 +55,11 @@
             transition: 0.3s;
         }
 
-        .materi-card:hover{
+        .materi-card:hover {
             transform: translateY(-5px);
         }
 
-        .btn-baca{
+        .btn-baca {
             background: #4f46e5;
             color: white;
             border-radius: 10px;
@@ -56,7 +69,7 @@
             transition: 0.3s;
         }
 
-        .btn-baca:hover{
+        .btn-baca:hover {
             background: #3730a3;
             color: white;
         }
@@ -64,23 +77,32 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="/">
-                EduGame
-            </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/">Home</a>
-                <a class="nav-link active" href="/materi">Materi</a>
-                <a class="nav-link" href="/about">About</a>
+            <a class="navbar-brand" href="{{ url('/') }}">EduGame</a>
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold" href="{{ url('/materi') }}">Materi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/about') }}">About</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
     <section class="header">
         <div class="container">
-            <h1>Materi Pembelajaran</h1>
-            <p>
+            <h1 class="fw-bold">Materi Pembelajaran</h1>
+            <p class="opacity-75">
                 Pelajari materi komputer dengan mudah dan interaktif
             </p>
         </div>
@@ -91,7 +113,7 @@
 
             <div class="materi-card">
                 <h3>Hardware Komputer</h3>
-                <p>
+                <p class="text-secondary">
                     Mempelajari perangkat keras komputer seperti CPU,
                     RAM, motherboard, dan perangkat input output.
                 </p>
@@ -102,8 +124,8 @@
 
             <div class="materi-card">
                 <h3>Software Komputer</h3>
-                <p>
-                    Mengenal sistem operasi, aplikasi, dan software
+                <p class="text-secondary">
+                    Mengenal sistem operasi, aplikasi, and software
                     pendukung komputer.
                 </p>
                 <a href="{{ url('/materi/software') }}" class="btn btn-baca d-inline-block text-decoration-none">
@@ -113,7 +135,7 @@
 
             <div class="materi-card">
                 <h3>Jaringan Komputer</h3>
-                <p>
+                <p class="text-secondary">
                     Memahami konsep jaringan LAN, WAN, internet,
                     dan komunikasi data.
                 </p>
@@ -124,5 +146,7 @@
 
         </div>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
