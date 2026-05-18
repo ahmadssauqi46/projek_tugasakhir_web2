@@ -77,7 +77,7 @@
                 <h4>Developer</h4>
 
                 <p>
-                    Ahmad Sauqi | Alfria Afdha | Tegar Kurniawan
+                    Ahmad Sauqi | Muhammad Alfria Afdha | Tegar Kurniawan
                 </p>
 
                 <hr>
