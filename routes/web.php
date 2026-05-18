@@ -19,3 +19,9 @@ Route::get('/materi', [MateriController::class, 'index']);
 Route::get('/materi/hardware', [MateriController::class, 'hardware']);
 Route::get('/materi/software', [MateriController::class, 'software']);
 Route::get('/materi/jaringan', [MateriController::class, 'jaringan']);
+
+Route::get('/quiz', [QuizController::class, 'index']);
+
+Route::get('/quiz/hardware', [QuizController::class, 'hardware']);
+Route::get('/quiz/software', [QuizController::class, 'software']);
+Route::get('/quiz/jaringan', [QuizController::class, 'jaringan']);
