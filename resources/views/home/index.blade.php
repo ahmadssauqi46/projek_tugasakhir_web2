@@ -84,13 +84,17 @@
             border-radius: 50px;
             border: none;
             background: white;
-            color: #4f46e5;
+            color: #3730a3;
             font-weight: 600;
             transition: 0.3s;
+            display: inline-block;
         }
 
         .btn-start:hover{
             transform: translateY(-5px);
+            background: #151153; 
+            color: white; 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
         }
 
         .hero img{
@@ -242,9 +246,9 @@
                         quiz interaktif dan tracking skor secara real-time.
                     </p>
 
-                    <button class="btn-start">
+                    <a href="{{ url('/materi') }}" class="btn btn-start d-inline-flex align-items-center justify-content-center text-decoration-none">
                         Mulai Belajar
-                    </button>
+                    </a>
 
                 </div>
 
