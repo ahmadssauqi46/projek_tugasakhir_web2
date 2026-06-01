@@ -1,125 +1,153 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+@section('content')
 
-    <style>
+<section class="hero text-center">
+    <div class="container">
 
-        body{
-            background: #f5f7ff;
-            font-family: Arial, sans-serif;
-        }
+    <h1 class="fw-bold">
+        Tentang EduTech Learning
+    </h1>
 
-        .hero{
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg,#4f46e5,#7c3aed);
-            color: white;
-            text-align: center;
-            padding: 80px 0;
-        }
+    <p class="lead">
+        Media pembelajaran komputer berbasis web yang dirancang
+        untuk membantu siswa memahami konsep komputer dan jaringan
+        secara interaktif, sistematis, dan terukur.
+    </p>
 
-        .card-about{
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            color: black;
-            margin-top: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
+</div>
+</section>
 
-        .contact-card{
-            background: #f8f9ff;
-            border-radius: 15px;
-            padding: 20px;
-            height: 100%;
-            border: 1px solid #e5e7eb;
-        }
+<section class="section">
+    <div class="container">
+    <div class="row g-4 align-items-center">
 
-        .contact-title{
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #4f46e5;
-        }
-
-    </style>
-
-</head>
-<body>
-
-    <section class="hero">
-
-        <div class="container">
-
-            <h1>Tentang EduGame</h1>
-
-            <p>
-                Media pembelajaran interaktif berbasis web
-                dengan gamification dan real-time score tracking.
-            </p>
-
-            <div class="card-about">
-
-                <h3>Tujuan Website</h3>
-
-                <p>
-                    Membantu siswa belajar komputer dengan cara
-                    yang lebih modern, menarik, dan interaktif.
-                </p>
-
-                <hr>
-
-                <h4>Developer</h4>
-
-                <p>
-                    Ahmad Sauqi | Muhammad Alfria Afdha | Tegar Kurniawan
-                </p>
-
-                <hr>
-
-                <h4 class="mb-4">
-                    Kontak Developer
-                </h4>
-
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-
-                        <div class="contact-card">
-
-                            <div class="contact-title">
-                                📧 Email
-                            </div>
-
-                            <p class="mb-0">
-                                edukomlearning@gmail.com
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-
-                        <div class="contact-card">
-
-                            <div class="contact-title">
-                                📱 WhatsApp
-                            </div>
-
-                            <p class="mb-0">
-                                +62 895-3651-36837
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-lg-5">
+            <div class="illus">
+                💻
             </div>
         </div>
-    </section>
-</body>
-</html>
+
+        <div class="col-lg-7">
+
+            <div class="card-soft p-5">
+
+                <h2 class="fw-bold">
+                    Profil Website
+                </h2>
+
+                <p>
+                    EduTech Learning merupakan media pembelajaran
+                    berbasis web yang dikembangkan untuk mendukung
+                    proses belajar komputer dan jaringan secara
+                    mandiri maupun di dalam kelas. Website ini
+                    menyediakan materi pembelajaran, latihan,
+                    quiz, dan evaluasi yang disusun secara bertahap
+                    agar peserta didik dapat memahami materi dengan
+                    lebih efektif.
+                </p>
+
+                <h5 class="fw-bold mt-4">
+                    Tujuan Pengembangan
+                </h5>
+
+                <p>
+                    Website ini dikembangkan untuk meningkatkan
+                    minat belajar siswa melalui penggunaan teknologi
+                    digital serta memberikan pengalaman belajar yang
+                    lebih interaktif dibandingkan metode pembelajaran
+                    konvensional.
+                </p>
+
+                <h5 class="fw-bold mt-4">
+                    Fitur Pembelajaran
+                </h5>
+
+                <ul>
+                    <li>Materi pembelajaran bertahap.</li>
+                    <li>Latihan untuk mengukur pemahaman materi.</li>
+                    <li>Quiz dengan penyimpanan nilai otomatis.</li>
+                    <li>Evaluasi akhir pembelajaran.</li>
+                    <li>Dashboard administrasi berbasis CRUD.</li>
+                </ul>
+
+                <h5 class="fw-bold mt-4">
+                    Penerapan TPACK
+                </h5>
+
+                <p>
+                    <strong>Technology Knowledge (TK)</strong>
+                    diterapkan melalui penggunaan website,
+                    database MySQL, dan teknologi Laravel.
+                </p>
+
+                <p>
+                    <strong>Pedagogical Knowledge (PK)</strong>
+                    diterapkan melalui penyusunan alur belajar
+                    yang sistematis mulai dari materi, latihan,
+                    quiz, hingga evaluasi.
+                </p>
+
+                <p>
+                    <strong>Content Knowledge (CK)</strong>
+                    diterapkan melalui penyajian materi mengenai
+                    perangkat keras, perangkat lunak, dan jaringan
+                    komputer.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4 mt-4">
+
+        <div class="col-md-4">
+            <div class="card-soft p-4 text-center">
+
+                <h5 class="fw-bold">
+                    Developer
+                </h5>
+
+                <p>
+                    Ahmad Sauqi<br>
+                    Muhammad Alfria Afdha<br>
+                    Tegar Kurniawan
+                </p>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-soft p-4 text-center">
+
+                <h5 class="fw-bold">
+                    Kontak
+                </h5>
+
+                <p>
+                    edutechlearning@gmail.com
+                </p>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-soft p-4 text-center">
+
+                <h5 class="fw-bold">
+                    Target Pengguna
+                </h5>
+
+                <p>
+                    Siswa dan mahasiswa yang mempelajari dasar
+                    komputer serta jaringan komputer.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+</section>
+@endsection
