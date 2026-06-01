@@ -2,7 +2,7 @@
 
 @section('content')
 
-<section class="hero text-center text-lg-start py-5" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+<section class="hero text-center text-lg-start py-5 bg-primary text-white">
     <div class="container py-5">
         <div class="row align-items-center g-5">
 
@@ -149,35 +149,35 @@
     </div>
 </section>
 
-<section class="section py-5 text-white" style="background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);">
+<section class="section py-5 text-white" style="background-color: #6f42c1 !important;">
     <div class="container py-3">
         <div class="row g-4 text-center">
 
             <div class="col-6 col-md-3">
                 <div class="p-3">
-                    <h2 class="display-5 fw-extrabold mb-1">{{ $totalKunjungan }}</h2>
-                    <p class="text-white-50 mb-0 small uppercase tracking-wider">Kunjungan</p>
+                    <h2 class="display-5 fw-extrabold mb-1 text-white">{{ $totalKunjungan }}</h2>
+                    <p class="text-white mb-0 small text-uppercase" style="letter-spacing: 1px;">Kunjungan</p>
                 </div>
             </div>
 
             <div class="col-6 col-md-3">
                 <div class="p-3">
-                    <h2 class="display-5 fw-extrabold mb-1">{{ $totalModul }}</h2>
-                    <p class="text-white-50 mb-0 small uppercase tracking-wider">Modul</p>
+                    <h2 class="display-5 fw-extrabold mb-1 text-white">{{ $totalModul }}</h2>
+                    <p class="text-white mb-0 small text-uppercase" style="letter-spacing: 1px;">Modul</p>
                 </div>
             </div>
 
             <div class="col-6 col-md-3">
                 <div class="p-3">
-                    <h2 class="display-5 fw-extrabold mb-1">{{ $totalSoal }}</h2>
-                    <p class="text-white-50 mb-0 small uppercase tracking-wider">Bank Soal</p>
+                    <h2 class="display-5 fw-extrabold mb-1 text-white">{{ $totalSoal }}</h2>
+                    <p class="text-white mb-0 small text-uppercase" style="letter-spacing: 1px;">Bank Soal</p>
                 </div>
             </div>
 
             <div class="col-6 col-md-3">
                 <div class="p-3">
-                    <h2 class="display-5 fw-extrabold mb-1">{{ $totalHasil }}</h2>
-                    <p class="text-white-50 mb-0 small uppercase tracking-wider">Hasil Tersimpan</p>
+                    <h2 class="display-5 fw-extrabold mb-1 text-white">{{ $totalHasil }}</h2>
+                    <p class="text-white mb-0 small text-uppercase" style="letter-spacing: 1px;">Hasil Tersimpan</p>
                 </div>
             </div>
 
