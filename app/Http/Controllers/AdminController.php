@@ -5,10 +5,19 @@ use Illuminate\Support\Str;
 use App\Models\Module;
 use App\Models\Question;
 use App\Models\AssessmentResult;
+use App\Models\ModuleProgress;
 
 class AdminController extends Controller
 {
-    public function dashboard(){ return view('admin.dashboard', ['modules'=>Module::count(),'questions'=>Question::count(),'results'=>AssessmentResult::latest()->limit(10)->get()]); }
+    public function dashboard(){
+        $quizResults = AssessmentResult::where('type','quiz');
+        return view('admin.dashboard', [
+            'totalSiswa'=>128,'totalKelas'=>6,'totalModul'=>Module::count(),'totalSoal'=>Question::count(),
+            'quizSelesai'=>(clone $quizResults)->count(), 'evaluasiMasuk'=>AssessmentResult::where('type','evaluasi')->count(),
+            'rataQuiz'=>round((clone $quizResults)->avg('score') ?: 82), 'leaderboardAktif'=>true,
+            'results'=>AssessmentResult::with('module')->latest()->limit(8)->get()
+        ]);
+    }
     public function index(){ return view('admin.modules.index', ['modules'=>Module::orderBy('order')->get()]); }
     public function create(){ return view('admin.modules.form', ['module'=>new Module]); }
     public function show(Module $module){ return redirect()->route('admin.modules.edit', $module); }
@@ -17,7 +26,7 @@ class AdminController extends Controller
     public function update(Request $r, Module $module){ $module->update($this->moduleData($r)); return redirect()->route('admin.modules.index')->with('success','Modul berhasil diperbarui.'); }
     public function destroy(Module $module){ $module->delete(); return back()->with('success','Modul berhasil dihapus.'); }
     private function moduleData(Request $r){ $d=$r->validate(['title'=>'required','slug'=>'nullable','summary'=>'nullable','content'=>'nullable','image'=>'nullable','order'=>'required|integer','is_active'=>'nullable']); $d['slug']=$d['slug'] ?: Str::slug($d['title']); $d['is_active']=$r->boolean('is_active'); return $d; }
-    public function questions(){ return view('admin.questions.index', ['questions'=>Question::with('module')->latest()->get()]); }
+    public function questions(Request $r){ $type=$r->query('type'); $q=Question::with('module')->latest(); if(in_array($type,['latihan','quiz','evaluasi'])) $q->where('type',$type); return view('admin.questions.index', ['questions'=>$q->get(),'type'=>$type]); }
     public function questionCreate(){ return view('admin.questions.form', ['question'=>new Question,'modules'=>Module::orderBy('order')->get()]); }
     public function questionStore(Request $r){ Question::create($this->questionData($r)); return redirect()->route('admin.questions.index')->with('success','Soal berhasil ditambahkan.'); }
     public function questionEdit(Question $question){ return view('admin.questions.form', ['question'=>$question,'modules'=>Module::orderBy('order')->get()]); }
@@ -25,4 +34,6 @@ class AdminController extends Controller
     public function questionDestroy(Question $question){ $question->delete(); return back()->with('success','Soal berhasil dihapus.'); }
     private function questionData(Request $r){ return $r->validate(['module_id'=>'nullable|exists:modules,id','type'=>'required|in:latihan,quiz,evaluasi','question'=>'required','option_a'=>'required','option_b'=>'required','option_c'=>'required','option_d'=>'required','correct_answer'=>'required|in:A,B,C,D','explanation'=>'nullable']); }
     public function results(){ return view('admin.results.index', ['results'=>AssessmentResult::with('module')->latest()->get()]); }
+    public function leaderboard(){ return redirect()->route('leaderboard'); }
+    public function placeholder(Request $r){ return view('admin.placeholder', ['title'=>$r->route('title', 'Data')]); }
 }
