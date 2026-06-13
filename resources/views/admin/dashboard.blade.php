@@ -1,5 +1,8 @@
 @extends('admin.layout')
 @section('admin')
+@php
+    $results = $results ?? collect();
+@endphp
 <div class="page-title">
     <div>
         <h2 class="fw-bold mb-1">Dashboard Admin/Guru</h2>
@@ -15,7 +18,7 @@
         ['Quiz Selesai',$quizSelesai,'bi-patch-check'],
         ['Evaluasi Masuk',$evaluasiMasuk,'bi-clipboard-check'],
         ['Rata-rata Quiz',$rataQuiz,'bi-bar-chart'],
-        ['Leaderboard','Aktif','bi-trophy']
+        ['Leaderboard',$leaderboardAktif ? 'Aktif' : 'Kosong','bi-trophy']
     ] as $c)
         <div class="col-sm-6 col-xl-3">
             <div class="mini-stat">
@@ -42,13 +45,11 @@
 
     @forelse($results as $r)
         <div class="data-row">
-            <b>{{ $r->student_name ?: 'Siswa' }}</b>
+            <b>{{ $r->user?->name ?? $r->student_name ?? 'Siswa' }}</b>
             <span class="muted">— {{ $r->module?->title ?? 'Evaluasi Akhir' }} — {{ ucfirst($r->type) }} masuk — Nilai {{ $r->score }}</span>
         </div>
     @empty
-        <div class="data-row"><b>Aulia Rahma</b><span class="muted"> — Quiz 86 — Evaluasi masuk</span></div>
-        <div class="data-row"><b>Bima Pratama</b><span class="muted"> — Quiz 94 — Evaluasi masuk</span></div>
-        <div class="data-row"><b>Citra Lestari</b><span class="muted"> — Quiz 90 — Belum evaluasi</span></div>
+        <div class="data-row"><span class="muted">Belum ada nilai masuk. Data akan muncul setelah siswa mengerjakan quiz atau evaluasi.</span></div>
     @endforelse
 </div>
 @endsection

@@ -3,6 +3,12 @@
 @section('title', $module->title)
 
 @section('content')
+@php
+    $minimumQuizScore = $minimumQuizScore ?? 70;
+    $latihanCompleted = $latihanCompleted ?? false;
+    $quizScore = $quizScore ?? null;
+    $moduleCompleted = $moduleCompleted ?? false;
+@endphp
 <section class="section">
     <div class="container">
         <div class="row g-4">
@@ -12,40 +18,36 @@
                     Detail Materi
                 </span>
 
-                <h2 class="fw-bold mb-3">
-                    {{ $module->title }}
-                </h2>
+                <h2 class="fw-bold mb-3">{{ $module->title }}</h2>
 
                 <div class="card-soft p-4 p-md-5 mb-4 material-content">
                     {!! $module->content !!}
+
+                    @if($module->video_url)
+                        <hr class="my-4">
+                        <a href="{{ $module->video_url }}" target="_blank" rel="noopener" class="btn btn-soft">
+                            <i class="bi bi-play-btn me-1"></i> Buka Video Pembelajaran
+                        </a>
+                    @endif
                 </div>
 
                 <div class="exam-card">
                     <div class="exam-header">
-                        <h4 class="fw-bold mb-1">
-                            Latihan Sub Bab
-                        </h4>
-
-                        <p class="small muted mb-0">
-                            Hasil benar atau salah langsung tampil. Nilai latihan tidak disimpan ke database.
-                        </p>
+                        <h4 class="fw-bold mb-1">Latihan Sub Bab</h4>
+                        <p class="small muted mb-0">Kerjakan latihan sampai lulus, lalu lanjutkan quiz modul ini.</p>
                     </div>
 
                     <div class="exam-body">
                         @if (session('latihan_result'))
-                            @php
-                                $r = session('latihan_result');
-                            @endphp
-
-                            <div class="alert alert-info">
+                            @php $r = session('latihan_result'); @endphp
+                            <div class="alert {{ $latihanCompleted ? 'alert-success' : 'alert-warning' }}">
                                 <b>Hasil Latihan:</b>
                                 Benar {{ $r['correct'] }} dari {{ session('total') }} soal.
                                 Nilai {{ $r['score'] }}.
-
-                                @if ($r['correct'] >= 3)
-                                    Materi berikutnya sudah terbuka.
+                                @if ($latihanCompleted)
+                                    Latihan sudah lulus. Silakan kerjakan quiz modul ini.
                                 @else
-                                    Ulangi latihan agar lebih memahami materi.
+                                    Ulangi latihan sampai mencapai minimal {{ session('minimum_correct') }} jawaban benar.
                                 @endif
                             </div>
                         @endif
@@ -55,33 +57,19 @@
 
                             @foreach ($questions as $q)
                                 <div class="question-box">
-                                    <div class="question-number">
-                                        Soal Nomor {{ $loop->iteration }}
-                                    </div>
-
-                                    <p class="question-text">
-                                        {{ $q->question }}
-                                    </p>
+                                    <div class="question-number">Soal Nomor {{ $loop->iteration }}</div>
+                                    <p class="question-text">{{ $q->question }}</p>
 
                                     @foreach (['A' => 'option_a', 'B' => 'option_b', 'C' => 'option_c', 'D' => 'option_d'] as $key => $field)
                                         <label class="question-option">
-                                            <input
-                                                type="radio"
-                                                name="answers[{{ $q->id }}]"
-                                                value="{{ $key }}"
-                                                required>
-
-                                            <span>
-                                                <b>{{ $key }}.</b> {{ $q->$field }}
-                                            </span>
+                                            <input type="radio" name="answers[{{ $q->id }}]" value="{{ $key }}" required>
+                                            <span><b>{{ $key }}.</b> {{ $q->$field }}</span>
                                         </label>
                                     @endforeach
                                 </div>
                             @endforeach
 
-                            <button class="btn btn-main px-4">
-                                Periksa Latihan
-                            </button>
+                            <button class="btn btn-main px-4">Periksa Latihan</button>
                         </form>
                     </div>
                 </div>
@@ -93,24 +81,39 @@
                         <i class="bi {{ $module->image ?: 'bi-cpu' }}"></i>
                     </div>
 
-                    <h5 class="fw-bold">
-                        Aksi Pembelajaran
-                    </h5>
-
+                    <h5 class="fw-bold">Aksi Pembelajaran</h5>
                     <p class="small muted">
-                        Setelah membaca materi dan mengerjakan latihan, lanjutkan ke modul berikutnya. Jika sudah sampai modul terakhir, lanjutkan ke simulasi sebelum mengerjakan kuis.
+                        Materi berikutnya baru terbuka setelah latihan selesai dan nilai quiz modul ini minimal {{ $minimumQuizScore }}.
                     </p>
 
-                    @if (isset($nextModule) && $nextModule)
-                        <a href="{{ route('materi.show', $nextModule->slug) }}" class="btn btn-next-module w-100 mb-2">
+                    <div class="mini-card mb-3 shadow-none">
+                        <div>Latihan: <b>{{ $latihanCompleted ? 'Selesai' : 'Belum selesai' }}</b></div>
+                        <div>Quiz: <b>{{ $quizScore === null ? 'Belum dikerjakan' : $quizScore }}</b></div>
+                    </div>
+
+                    @if($latihanCompleted && $quizScore === null)
+                        <a href="{{ route('quiz.show', $module) }}" class="btn btn-main w-100 mb-2">
+                            Kerjakan Quiz Modul
+                            <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    @elseif($latihanCompleted && $quizScore !== null && $quizScore < $minimumQuizScore)
+                        <button class="btn btn-soft w-100 mb-2" disabled>
+                            Nilai quiz belum mencukupi
+                        </button>
+                    @elseif($moduleCompleted && $nextModule)
+                        <a href="{{ route('materi.show', $nextModule) }}" class="btn btn-next-module w-100 mb-2">
                             Lanjut ke Modul Berikutnya
                             <i class="bi bi-arrow-right ms-1"></i>
                         </a>
-                    @else
-                        <a href="{{ route('simulasi.interaktif') }}" class="btn btn-next-module w-100 mb-2">
-                            Lanjut ke Simulasi
-                            <i class="bi bi-controller ms-1"></i>
+                    @elseif($moduleCompleted)
+                        <a href="{{ route('evaluasi.show') }}" class="btn btn-next-module w-100 mb-2">
+                            Lanjut ke Evaluasi
+                            <i class="bi bi-clipboard-check ms-1"></i>
                         </a>
+                    @else
+                        <button class="btn btn-soft w-100 mb-2" disabled>
+                            Selesaikan latihan dulu
+                        </button>
                     @endif
 
                     <a href="{{ route('materi.index') }}" class="btn btn-soft w-100">

@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 @section('title','Login EduTech')
 
 @section('content')
@@ -18,7 +18,7 @@
                         </h1>
 
                         <p class="text-white mb-0" style="font-size:17px;line-height:1.8;opacity:.92;">
-                            Siswa dapat melanjutkan materi, latihan, quiz, dan evaluasi. Guru dapat mengelola modul, soal, nilai, serta leaderboard melalui dashboard admin.
+                            Gunakan akun yang sudah terdaftar untuk mengakses materi, latihan, quiz, evaluasi, dan dashboard progress belajar.
                         </p>
                     </div>
 
@@ -26,14 +26,14 @@
                         <div class="col-sm-6">
                             <div class="auth-feature">
                                 <b>Akun Siswa</b><br>
-                                <small>siswa@edutech.test / password123</small>
+                                <small>Belajar materi dan mengerjakan quiz.</small>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="auth-feature">
                                 <b>Akun Guru</b><br>
-                                <small>guru@edutech.test / password123</small>
+                                <small>Mengelola modul, soal, dan hasil belajar.</small>
                             </div>
                         </div>
                     </div>
@@ -67,9 +67,7 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-main w-100">
-                            Masuk
-                        </button>
+                        <button class="btn btn-main w-100">Masuk</button>
 
                         <p class="small text-center mt-4 mb-0">
                             Belum punya akun?

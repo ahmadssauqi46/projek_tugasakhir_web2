@@ -9,34 +9,32 @@
         </div>
 
         <div class="card-soft p-3 p-md-4">
-            <div class="table-responsive">
-                <table class="table table-soft align-middle mb-0">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Nama</th>
-                            <th>Kelas</th>
-                            <th>Quiz</th>
-                            <th>Progress</th>
-                            <th>Poin</th>
-                            <th>Badge</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($rows as $r)
+            @if(count($rows) === 0)
+                <div class="p-4 text-center muted">Belum ada data siswa. Leaderboard akan terisi setelah siswa mendaftar dan mengerjakan quiz.</div>
+            @else
+                <div class="table-responsive">
+                    <table class="table table-soft align-middle mb-0">
+                        <thead>
                             <tr>
-                                <td><b>#{{ $loop->iteration }}</b></td>
-                                <td><b class="text-dark">{{ $r['name'] }}</b></td>
-                                <td>{{ $r['class'] }}</td>
-                                <td>{{ $r['quiz'] }}</td>
-                                <td>{{ $r['progress'] }}%</td>
-                                <td>{{ $r['points'] }}</td>
-                                <td><span class="chip">{{ $r['badge'] }}</span></td>
+                                <th>Rank</th><th>Nama</th><th>Kelas</th><th>Quiz</th><th>Progress</th><th>Poin</th><th>Badge</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach($rows as $r)
+                                <tr>
+                                    <td><b>#{{ $loop->iteration }}</b></td>
+                                    <td><b class="text-dark">{{ $r['name'] }}</b></td>
+                                    <td>{{ $r['class'] }}</td>
+                                    <td>{{ $r['quiz'] }}</td>
+                                    <td>{{ $r['progress'] }}%</td>
+                                    <td>{{ $r['points'] }}</td>
+                                    <td><span class="chip">{{ $r['badge'] }}</span></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         </div>
     </div>
 </section>

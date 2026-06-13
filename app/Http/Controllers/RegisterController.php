@@ -26,7 +26,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => $data['password'],
             'role' => 'siswa',
-            'class' => $data['class'] ?? 'X IPA 1',
+            'class' => $data['class'] ?? null,
         ]);
 
         Auth::login($user);
@@ -36,7 +36,7 @@ class RegisterController extends Controller
             'user_name' => $user->name,
             'user_email' => $user->email,
             'user_role' => $user->role,
-            'user_class' => $user->class,
+            'user_class' => $user->class ?? 'Belum diisi',
         ]);
 
         return redirect()->route('dashboard.siswa');

@@ -14,7 +14,7 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|string|max:120',
+            'email' => 'required|string|email|max:120',
             'password' => 'required|string',
         ]);
 
@@ -31,7 +31,7 @@ class LoginController extends Controller
             'user_name' => $user->name,
             'user_email' => $user->email,
             'user_role' => $user->role,
-            'user_class' => $user->class ?? 'X IPA 1',
+            'user_class' => $user->class ?? 'Belum diisi',
         ]);
 
         return $user->role === 'guru'

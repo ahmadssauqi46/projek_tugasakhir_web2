@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 @section('content')
 <section class="auth-section">
     <div class="container">
@@ -9,11 +9,11 @@
                         <div class="brand-mark bg-white text-primary mb-4"><i class="bi bi-cpu"></i></div>
                         <span class="chip bg-white text-primary border-0 mb-3"><i class="bi bi-stars"></i> Mulai belajar interaktif</span>
                         <h2 class="fw-bold mb-3">Daftar Akun Siswa</h2>
-                        <p class="mb-0">Akun baru otomatis dibuat sebagai siswa. Akun guru dibuat oleh pengelola melalui seeder atau database agar akses admin tetap aman.</p>
+                        <p class="mb-0">Akun baru otomatis dibuat sebagai siswa. Akun guru dibuat oleh pengelola agar akses admin tetap aman.</p>
                     </div>
                     <div class="row g-3 mt-4">
                         <div class="col-sm-6"><div class="auth-feature"><b>Latihan Cepat</b><br><small>Hasil langsung tampil.</small></div></div>
-                        <div class="col-sm-6"><div class="auth-feature"><b>Leaderboard</b><br><small>Poin dan badge belajar.</small></div></div>
+                        <div class="col-sm-6"><div class="auth-feature"><b>Progress Tersimpan</b><br><small>Data mengikuti akun siswa.</small></div></div>
                     </div>
                 </div>
                 <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 p-md-5">
@@ -26,13 +26,11 @@
                         </div>
 
                         @if ($errors->any())
-                            <div class="alert alert-danger">
-                                {{ $errors->first() }}
-                            </div>
+                            <div class="alert alert-danger">{{ $errors->first() }}</div>
                         @endif
 
                         <label class="fw-bold small mb-2">Nama Lengkap</label>
-                        <input class="form-control mb-3" name="name" required value="{{ old('name') }}" placeholder="Contoh: Aulia Rahma">
+                        <input class="form-control mb-3" name="name" required value="{{ old('name') }}" placeholder="Contoh: Nama Siswa">
 
                         <label class="fw-bold small mb-2">Email</label>
                         <input class="form-control mb-3" name="email" type="email" required value="{{ old('email') }}" placeholder="nama@email.com">
