@@ -3,11 +3,21 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Module;
 use App\Models\Question;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        User::updateOrCreate(
+            ['email' => 'guru@edutech.test'],
+            ['name' => 'Guru EduTech', 'password' => 'password123', 'role' => 'guru', 'class' => null]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'siswa@edutech.test'],
+            ['name' => 'Siswa Demo', 'password' => 'password123', 'role' => 'siswa', 'class' => 'X IPA 1']
+        );
         $modules = [
             ['Pengertian Dasar Komputer','pengertian-dasar-komputer','Memahami definisi komputer, fungsi utama, dan cara kerja sistem komputer.','bi-pc-display-horizontal'],
             ['Hardware Input','hardware-input','Mengenal perangkat masukan seperti keyboard, mouse, scanner, microphone, dan kamera.','bi-keyboard'],
@@ -19,7 +29,7 @@ class DatabaseSeeder extends Seeder
         ];
         foreach ($modules as $i => $m) {
             $content = '<h4 class="text-primary fw-bold">Tujuan Pembelajaran</h4><p>Siswa mampu menjelaskan konsep '.$m[0].', mengidentifikasi contoh yang tepat, serta menghubungkan materi dengan penggunaan komputer dalam kehidupan sekolah dan pekerjaan sehari-hari.</p>'
-            .'<h4 class="text-primary fw-bold mt-4">Narasi Pembuka</h4><p>'.$m[0].' merupakan bagian penting dalam pengenalan dasar komputer. Pada tahap ini siswa tidak hanya menghafal istilah, tetapi juga memahami fungsi, alur kerja, dan manfaatnya. Komputer bekerja sebagai sebuah sistem yang menerima data, memproses data, menyimpan data, lalu menghasilkan informasi yang dapat digunakan oleh manusia.</p><p>Dalam pembelajaran SMA kelas 10–11, pemahaman ini penting karena hampir semua kegiatan belajar menggunakan perangkat digital. Siswa perlu mengetahui perbedaan perangkat keras dan perangkat lunak, cara keduanya saling terhubung, serta bagaimana memilih perangkat yang sesuai dengan kebutuhan.</p>'
+            .'<h4 class="text-primary fw-bold mt-4">Narasi Pembuka</h4><p>'.$m[0].' merupakan bagian penting dalam pengenalan dasar komputer. Pada tahap ini siswa tidak hanya menghafal istilah, tetapi juga memahami fungsi, alur kerja, dan manfaatnya. Komputer bekerja sebagai sebuah sistem yang menerima data, memproses data, menyimpan data, lalu menghasilkan informasi yang dapat digunakan oleh manusia.</p><p>Dalam pembelajaran SMA kelas 10â€“11, pemahaman ini penting karena hampir semua kegiatan belajar menggunakan perangkat digital. Siswa perlu mengetahui perbedaan perangkat keras dan perangkat lunak, cara keduanya saling terhubung, serta bagaimana memilih perangkat yang sesuai dengan kebutuhan.</p>'
             .'<h4 class="text-primary fw-bold mt-4">Contoh dalam Kehidupan Sehari-hari</h4><p>Contohnya saat siswa membuat tugas presentasi. Keyboard digunakan untuk mengetik, mouse untuk memilih menu, CPU dan RAM memproses perintah, storage menyimpan file, software presentasi mengatur tampilan slide, dan monitor menampilkan hasil pekerjaan. Semua komponen tersebut saling bekerja sama.</p>'
             .'<h4 class="text-primary fw-bold mt-4">Rangkuman</h4><p>'.$m[0].' membantu siswa memahami bahwa komputer bukan hanya alat untuk mengetik atau bermain, tetapi sistem teknologi yang terdiri dari berbagai komponen. Setiap komponen memiliki fungsi berbeda, tetapi saling mendukung agar komputer dapat berjalan dengan baik.</p>';
             Module::updateOrCreate(['slug'=>$m[1]], ['title'=>$m[0], 'summary'=>$m[2], 'image'=>$m[3], 'order'=>$i+1, 'content'=>$content, 'is_active'=>true]);
@@ -76,3 +86,4 @@ class DatabaseSeeder extends Seeder
         });
     }
 }
+

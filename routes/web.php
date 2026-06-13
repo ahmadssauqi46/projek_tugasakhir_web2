@@ -20,7 +20,7 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register.s
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard-siswa', [HomeController::class, 'dashboardSiswa'])->name('dashboard.siswa');
+Route::get('/dashboard-siswa', [HomeController::class, 'dashboardSiswa'])->middleware('auth')->name('dashboard.siswa');
 Route::get('/leaderboard', [HomeController::class, 'leaderboard'])->name('leaderboard');
 
 Route::get('/materi', [MateriController::class, 'index'])->name('materi.index');
@@ -36,7 +36,7 @@ Route::post('/quiz/{module:slug}', [AssessmentController::class, 'quizSubmit'])-
 Route::get('/evaluasi', [AssessmentController::class, 'evaluasiShow'])->name('evaluasi.show');
 Route::post('/evaluasi', [AssessmentController::class, 'evaluasiSubmit'])->name('evaluasi.submit');
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'guru'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::resource('modules', AdminController::class)->parameters([

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('content')
 <section class="auth-section">
     <div class="container">
@@ -8,8 +8,8 @@
                     <div>
                         <div class="brand-mark bg-white text-primary mb-4"><i class="bi bi-cpu"></i></div>
                         <span class="chip bg-white text-primary border-0 mb-3"><i class="bi bi-stars"></i> Mulai belajar interaktif</span>
-                        <h2 class="fw-bold mb-3">Daftar dan Ikuti Pembelajaran</h2>
-                        <p class="mb-0">Buat akun untuk mengakses materi hardware dan software, mengerjakan latihan, mengikuti quiz, mengirim evaluasi, serta melihat progress belajar.</p>
+                        <h2 class="fw-bold mb-3">Daftar Akun Siswa</h2>
+                        <p class="mb-0">Akun baru otomatis dibuat sebagai siswa. Akun guru dibuat oleh pengelola melalui seeder atau database agar akses admin tetap aman.</p>
                     </div>
                     <div class="row g-3 mt-4">
                         <div class="col-sm-6"><div class="auth-feature"><b>Latihan Cepat</b><br><small>Hasil langsung tampil.</small></div></div>
@@ -21,31 +21,30 @@
                         @csrf
                         <div class="text-center mb-4">
                             <div class="icon-box mx-auto mb-3"><i class="bi bi-person-plus"></i></div>
-                            <h3 class="fw-bold mb-1">Register Akun</h3>
-                            <p class="muted small mb-0">Lengkapi data pengguna</p>
+                            <h3 class="fw-bold mb-1">Register Siswa</h3>
+                            <p class="muted small mb-0">Lengkapi data akun belajar</p>
                         </div>
 
-                        <div class="d-flex gap-2 mb-4">
-                            <input class="btn-check" type="radio" name="role" id="rsiswa" value="siswa" checked>
-                            <label class="btn btn-soft flex-fill" for="rsiswa"><i class="bi bi-mortarboard me-1"></i> Siswa</label>
-                            <input class="btn-check" type="radio" name="role" id="rguru" value="guru">
-                            <label class="btn btn-soft flex-fill" for="rguru"><i class="bi bi-person-workspace me-1"></i> Guru</label>
-                        </div>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
 
                         <label class="fw-bold small mb-2">Nama Lengkap</label>
-                        <input class="form-control mb-3" name="name" required placeholder="Contoh: Aulia Rahma">
+                        <input class="form-control mb-3" name="name" required value="{{ old('name') }}" placeholder="Contoh: Aulia Rahma">
 
-                        <label class="fw-bold small mb-2">Email / Username</label>
-                        <input class="form-control mb-3" name="email" required placeholder="nama@email.com">
+                        <label class="fw-bold small mb-2">Email</label>
+                        <input class="form-control mb-3" name="email" type="email" required value="{{ old('email') }}" placeholder="nama@email.com">
 
                         <label class="fw-bold small mb-2">Password</label>
                         <div class="password-field mb-3">
-                            <input id="registerPassword" class="form-control" type="password" name="password" required placeholder="Buat password">
+                            <input id="registerPassword" class="form-control" type="password" name="password" required placeholder="Minimal 6 karakter">
                             <button class="password-toggle" type="button" data-toggle-password="#registerPassword"><i class="bi bi-eye"></i></button>
                         </div>
 
                         <label class="fw-bold small mb-2">Kelas</label>
-                        <input class="form-control mb-4" name="class" placeholder="Contoh: X IPA 1">
+                        <input class="form-control mb-4" name="class" value="{{ old('class') }}" placeholder="Contoh: X IPA 1">
 
                         <button class="btn btn-main w-100">Daftar Sekarang</button>
                         <p class="small text-center mt-3 mb-0">Sudah punya akun? <a href="{{ route('login') }}" class="fw-bold">Login</a></p>

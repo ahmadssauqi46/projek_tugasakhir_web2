@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('title','Login EduTech')
 
 @section('content')
@@ -25,15 +25,15 @@
                     <div class="row g-3 mt-5">
                         <div class="col-sm-6">
                             <div class="auth-feature">
-                                <b>Untuk Siswa</b><br>
-                                <small>Belajar materi dan mengerjakan soal.</small>
+                                <b>Akun Siswa</b><br>
+                                <small>siswa@edutech.test / password123</small>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="auth-feature">
-                                <b>Untuk Guru</b><br>
-                                <small>Mengelola data pembelajaran.</small>
+                                <b>Akun Guru</b><br>
+                                <small>guru@edutech.test / password123</small>
                             </div>
                         </div>
                     </div>
@@ -45,29 +45,16 @@
 
                         <div class="mb-4">
                             <h2 class="fw-bold mb-1">Login Akun</h2>
-                            <p class="small mb-0">Pilih jenis pengguna sesuai akun.</p>
+                            <p class="small mb-0">Role pengguna akan dibaca dari database.</p>
                         </div>
 
-                        <div class="d-flex gap-2 mb-4">
-                            <input class="btn-check" type="radio" name="role" id="siswa" value="siswa" checked>
-                            <label class="btn btn-soft flex-fill" for="siswa">
-                                Siswa
-                            </label>
-
-                            <input class="btn-check" type="radio" name="role" id="guru" value="guru">
-                            <label class="btn btn-soft flex-fill" for="guru">
-                                Guru
-                            </label>
-                        </div>
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 
                         <div class="mb-3">
-                            <label class="fw-bold small mb-2">Nama Lengkap</label>
-                            <input class="form-control" name="name" placeholder="Contoh: Bima Pratama">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="fw-bold small mb-2">Email / Username</label>
-                            <input class="form-control" name="email" required placeholder="nama@email.com">
+                            <label class="fw-bold small mb-2">Email</label>
+                            <input class="form-control" name="email" type="email" required value="{{ old('email') }}" placeholder="nama@email.com">
                         </div>
 
                         <div class="mb-4">
@@ -86,7 +73,7 @@
 
                         <p class="small text-center mt-4 mb-0">
                             Belum punya akun?
-                            <a href="{{ route('register') }}" class="fw-bold">Register</a>
+                            <a href="{{ route('register') }}" class="fw-bold">Register Siswa</a>
                         </p>
                     </form>
                 </div>
