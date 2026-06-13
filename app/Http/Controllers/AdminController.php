@@ -12,7 +12,7 @@ class AdminController extends Controller
     public function dashboard(){
         $quizResults = AssessmentResult::where('type','quiz');
         return view('admin.dashboard', [
-            'totalSiswa'=>128,'totalKelas'=>6,'totalModul'=>Module::count(),'totalSoal'=>Question::count(),
+            'totalSiswa'=>128,'totalModul'=>Module::count(),'totalSoal'=>Question::count(),
             'quizSelesai'=>(clone $quizResults)->count(), 'evaluasiMasuk'=>AssessmentResult::where('type','evaluasi')->count(),
             'rataQuiz'=>round((clone $quizResults)->avg('score') ?: 82), 'leaderboardAktif'=>true,
             'results'=>AssessmentResult::with('module')->latest()->limit(8)->get()
@@ -27,7 +27,7 @@ class AdminController extends Controller
     public function destroy(Module $module){ $module->delete(); return back()->with('success','Modul berhasil dihapus.'); }
     private function moduleData(Request $r){ $d=$r->validate(['title'=>'required','slug'=>'nullable','summary'=>'nullable','content'=>'nullable','image'=>'nullable','order'=>'required|integer','is_active'=>'nullable']); $d['slug']=$d['slug'] ?: Str::slug($d['title']); $d['is_active']=$r->boolean('is_active'); return $d; }
     public function questions(Request $r){ $type=$r->query('type'); $q=Question::with('module')->latest(); if(in_array($type,['latihan','quiz','evaluasi'])) $q->where('type',$type); return view('admin.questions.index', ['questions'=>$q->get(),'type'=>$type]); }
-    public function questionCreate(){ return view('admin.questions.form', ['question'=>new Question,'modules'=>Module::orderBy('order')->get()]); }
+    public function questionCreate(Request $r){ return view('admin.questions.form', ['question'=>new Question(['type'=>$r->query('type','latihan')]),'modules'=>Module::orderBy('order')->get()]); }
     public function questionStore(Request $r){ Question::create($this->questionData($r)); return redirect()->route('admin.questions.index')->with('success','Soal berhasil ditambahkan.'); }
     public function questionEdit(Question $question){ return view('admin.questions.form', ['question'=>$question,'modules'=>Module::orderBy('order')->get()]); }
     public function questionUpdate(Request $r, Question $question){ $question->update($this->questionData($r)); return redirect()->route('admin.questions.index')->with('success','Soal berhasil diperbarui.'); }

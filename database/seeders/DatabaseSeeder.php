@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         ];
         foreach (Module::all() as $mod) {
             foreach ($latihan as $idx=>$q) {
-                Question::updateOrCreate(['module_id'=>$mod->id,'type'=>'latihan','question'=>'['.$mod->title.'] '.$q[0]], ['option_a'=>$q[1],'option_b'=>$q[2],'option_c'=>$q[3],'option_d'=>$q[4],'correct_answer'=>$q[5],'explanation'=>'Jawaban ini sesuai dengan konsep dasar '.$mod->title.'.']);
+                Question::updateOrCreate(['module_id'=>$mod->id,'type'=>'latihan','question'=>$q[0]], ['option_a'=>$q[1],'option_b'=>$q[2],'option_c'=>$q[3],'option_d'=>$q[4],'correct_answer'=>$q[5],'explanation'=>'Jawaban ini sesuai dengan konsep dasar '.$mod->title.'.']);
             }
         }
 
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
         $first = Module::orderBy('order')->first();
         foreach ($quiz as $q) Question::updateOrCreate(['module_id'=>$first->id,'type'=>'quiz','question'=>$q[0]], ['option_a'=>$q[1],'option_b'=>$q[2],'option_c'=>$q[3],'option_d'=>$q[4],'correct_answer'=>$q[5],'explanation'=>'Pembahasan quiz dasar komputer.']);
         foreach (Module::where('id','!=',$first->id)->get() as $mod) {
-            for($i=0;$i<10;$i++) Question::updateOrCreate(['module_id'=>$mod->id,'type'=>'quiz','question'=>'['.$mod->title.'] '.$quiz[$i][0]], ['option_a'=>$quiz[$i][1],'option_b'=>$quiz[$i][2],'option_c'=>$quiz[$i][3],'option_d'=>$quiz[$i][4],'correct_answer'=>$quiz[$i][5],'explanation'=>'Pembahasan quiz '.$mod->title.'.']);
+            for($i=0;$i<10;$i++) Question::updateOrCreate(['module_id'=>$mod->id,'type'=>'quiz','question'=>$quiz[$i][0]], ['option_a'=>$quiz[$i][1],'option_b'=>$quiz[$i][2],'option_c'=>$quiz[$i][3],'option_d'=>$quiz[$i][4],'correct_answer'=>$quiz[$i][5],'explanation'=>'Pembahasan quiz '.$mod->title.'.']);
         }
 
         $evals = array_merge($quiz, [
@@ -69,5 +69,10 @@ class DatabaseSeeder extends Seeder
             ['Belajar hardware dan software penting agar siswa ...','Memahami cara kerja komputer dengan benar','Hanya menghafal merek','Tidak memakai komputer','Menghapus sistem operasi','A'],
         ]);
         foreach ($evals as $q) Question::updateOrCreate(['module_id'=>null,'type'=>'evaluasi','question'=>$q[0]], ['option_a'=>$q[1],'option_b'=>$q[2],'option_c'=>$q[3],'option_d'=>$q[4],'correct_answer'=>$q[5],'explanation'=>'Pembahasan evaluasi akhir.']);
+
+        Question::all()->each(function ($question) {
+            $question->question = preg_replace('/^\[[^\]]+\]\s*/', '', $question->question);
+            $question->save();
+        });
     }
 }

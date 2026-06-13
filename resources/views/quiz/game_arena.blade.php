@@ -1,274 +1,460 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Game Praktik - EduGame</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { font-family: 'Poppins', sans-serif; }
-        body { background: #f5f7ff; padding-top: 40px; }
-        .game-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
-        .component-box { background: #eef2ff; border: 2px dashed #4f46e5; border-radius: 12px; padding: 12px; text-align: center; cursor: grab; font-weight: 500; transition: 0.3s; }
-        .component-box:active { cursor: grabbing; }
-        .casing-area { background: #1e1e2f; border-radius: 20px; min-height: 450px; position: relative; padding: 20px; color: white; }
-        .drop-zone { border: 2px dashed rgba(255, 255, 255, 0.4); border-radius: 10px; height: 90px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.05); transition: 0.3s; font-size: 14px; color: rgba(255, 255, 255, 0.6); }
-        .drop-zone.hovered { background: rgba(79, 70, 229, 0.3); border-color: #4f46e5; color: white; }
-        .drop-zone.correct { background: rgba(22, 163, 74, 0.2); border-color: #16a34a; color: #22c55e; border-style: solid; }
-        .drop-box-software { background: #1e1e2f; border-radius: 16px; min-height: 220px; padding: 20px; color: white; transition: 0.3s; border: 2px dashed rgba(255,255,255,0.2); }
-        .drop-box-software.hovered { border-color: #6366f1; background: #252538; }
-        .item-in-box { background: rgba(255,255,255,0.1); padding: 8px; margin-top: 10px; border-radius: 8px; font-size: 14px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
-        .definition-zone { background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; font-weight: 500; transition: 0.3s; }
-        .definition-zone.hovered { background: #e0e7ff; border-color: #6366f1; }
-        .definition-zone.correct { background: #dcfce7; border-color: #22c55e; color: #15803d; border-style: solid; }
-        .game-nav-box { border-bottom: 2px solid #f3f4f6; margin-bottom: 30px; padding-bottom: 15px; }
-        .nav-tab-btn { border: none; background: none; padding: 10px 20px; font-weight: 600; color: #9ca3af; border-bottom: 3px solid transparent; transition: 0.2s; }
-        .nav-tab-btn.active { color: #4f46e5; border-bottom-color: #4f46e5; }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
 
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="game-card">
-                    
-                    <div class="d-flex gap-2 game-nav-box">
-                        <button class="nav-tab-btn" id="tab-hw-btn" onclick="switchGameLevel('hardware')">💻 Game Hardware</button>
-                        <button class="nav-tab-btn" id="tab-sw-btn" onclick="switchGameLevel('software')">⚙️ Game Software</button>
-                        <button class="nav-tab-btn" id="tab-net-btn" onclick="switchGameLevel('jaringan')">🌐 Game Jaringan</button>
+@section('title', 'Simulasi Interaktif')
+
+@section('content')
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <span class="chip mb-3">
+                <i class="bi bi-controller"></i>
+                Simulasi Interaktif
+            </span>
+
+            <h2 class="fw-bold mb-2">
+                Simulasi Hardware dan Software
+            </h2>
+
+            <p class="muted mb-0">
+                Simulasi ini membantu siswa memahami komponen hardware dan jenis software sebelum mengerjakan kuis.
+            </p>
+        </div>
+
+        <div class="card-soft p-4 p-md-5">
+            <div class="simulation-tabs">
+                <button class="simulation-tab active" id="tabHardware" type="button" onclick="showSimulation('hardware')">
+                    <i class="bi bi-cpu me-1"></i>
+                    Simulasi Hardware
+                </button>
+
+                <button class="simulation-tab" id="tabSoftware" type="button" onclick="showSimulation('software')">
+                    <i class="bi bi-window-stack me-1"></i>
+                    Simulasi Software
+                </button>
+            </div>
+
+            <div id="simulationHardware" class="simulation-content">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                    <div>
+                        <h4 class="fw-bold text-primary mb-1">
+                            Susun Komponen Komputer
+                        </h4>
+
+                        <p class="text-muted mb-0 small">
+                            Tarik komponen ke posisi yang benar di dalam casing komputer.
+                        </p>
                     </div>
 
-                    <div id="game-hardware-content" class="game-level-view d-none">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div>
-                                <h4 class="fw-bold text-primary mb-1">⚡ Level 1: Susun Komputer</h4>
-                                <p class="text-muted mb-0 small">Geser komponen di sebelah kiri ke posisi yang benar di dalam Casing!</p>
+                    <a href="{{ route('quiz.index') }}" class="btn btn-main btn-sm">
+                        Lanjut ke Kuis
+                        <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <h6 class="fw-bold mb-3">
+                            Pilihan Komponen
+                        </h6>
+
+                        <div class="d-flex flex-column gap-2">
+                            <div class="simulation-item" draggable="true" id="compCpu">
+                                Prosesor CPU
                             </div>
-                            <a href="{{ url('/quiz') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
+
+                            <div class="simulation-item" draggable="true" id="compRam">
+                                RAM Memory
+                            </div>
+
+                            <div class="simulation-item" draggable="true" id="compPsu">
+                                Power Supply
+                            </div>
                         </div>
 
-                        <div class="row g-4">
-                            <div class="col-md-4">
-                                <h6 class="fw-bold mb-3 small">Pilihan Komponen</h6>
-                                <div class="d-flex flex-column gap-2">
-                                    <div class="component-box" draggable="true" id="comp-ram">🧠 RAM Memory</div>
-                                    <div class="component-box" draggable="true" id="comp-cpu">⚡ Prosesor (CPU)</div>
-                                    <div class="component-box" draggable="true" id="comp-psu">🔌 Power Supply</div>
-                                </div>
-                                <div class="alert alert-success mt-4 d-none hw-win-message">🎉 <b>Selamat!</b> Perakitan PC Selesai!</div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="casing-area d-flex flex-column justify-content-between">
-                                    <h6 class="text-center fw-bold text-white-50 small">BAGIAN DALAM CASING PC</h6>
-                                    <div class="row g-3">
-                                        <div class="col-6">
-                                            <label class="form-label text-white-50 small">Socket Motherboard:</label>
-                                            <div class="drop-zone hw-zone" data-target="comp-cpu">Drop CPU di Sini</div>
-                                        </div>
-                                        <div class="col-6">
-                                            <label class="form-label text-white-50 small">Slot RAM (DDR):</label>
-                                            <div class="drop-zone hw-zone" data-target="comp-ram">Drop RAM di Sini</div>
-                                        </div>
-                                        <div class="col-12">
-                                            <label class="form-label text-white-50 small">Dudukan Bawah Casing:</label>
-                                            <div class="drop-zone hw-zone" data-target="comp-psu">Drop Power Supply di Sini</div>
-                                        </div>
-                                    </div>
-                                    <div class="text-center mt-3 text-white-50 small">
-                                        Status: <span id="hw-game-status" class="text-warning">Menunggu komponen diletakkan...</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="alert alert-success mt-4 d-none" id="hardwareSuccess">
+                            <b>Selamat!</b> Semua komponen hardware sudah ditempatkan dengan benar.
                         </div>
                     </div>
 
-                    <div id="game-software-content" class="game-level-view d-none">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div>
-                                <h4 class="fw-bold text-primary mb-1">⚙️ Level 2: Sortir Kategori Software</h4>
-                                <p class="text-muted small mb-0">Klasifikasikan program ke dalam kelompok Sistem Operasi atau Aplikasi yang tepat!</p>
-                            </div>
-                            <a href="{{ url('/quiz') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
-                        </div>
+                    <div class="col-md-8">
+                        <div class="computer-case">
+                            <h6 class="text-center text-white-50 fw-bold mb-4">
+                                BAGIAN DALAM CASING KOMPUTER
+                            </h6>
 
-                        <div class="row g-4">
-                            <div class="col-md-4">
-                                <h6 class="fw-bold mb-3 small">Daftar Software</h6>
-                                <div class="d-flex flex-column gap-2">
-                                    <div class="component-box" draggable="true" id="item-win" data-type="os">🪟 Windows 11</div>
-                                    <div class="component-box" draggable="true" id="item-chrome" data-type="app">🌐 Google Chrome</div>
-                                    <div class="component-box" draggable="true" id="item-linux" data-type="os">🐧 Linux Ubuntu</div>
-                                    <div class="component-box" draggable="true" id="item-word" data-type="app">📄 Microsoft Word</div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-white-50 small">
+                                        Socket Motherboard
+                                    </label>
+
+                                    <div class="drop-zone hardware-zone" data-target="compCpu">
+                                        Letakkan CPU di sini
+                                    </div>
                                 </div>
-                                <div class="alert alert-success mt-4 d-none sw-win-message">🎉 Hebat! Semua kategori software benar!</div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label text-white-50 small">
+                                        Slot RAM
+                                    </label>
+
+                                    <div class="drop-zone hardware-zone" data-target="compRam">
+                                        Letakkan RAM di sini
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label text-white-50 small">
+                                        Dudukan Bawah Casing
+                                    </label>
+
+                                    <div class="drop-zone hardware-zone" data-target="compPsu">
+                                        Letakkan Power Supply di sini
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="row g-3">
-                                    <div class="col-6">
-                                        <div class="drop-box-software sw-zone" data-accept="os">
-                                            <h6 class="text-center fw-bold text-info small">Sistem Operasi (OS)</h6>
-                                            <hr class="border-secondary my-2">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="drop-box-software sw-zone" data-accept="app">
-                                            <h6 class="text-center fw-bold text-warning small">Software Aplikasi</h6>
-                                            <hr class="border-secondary my-2">
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="text-center mt-4 text-muted small" id="sw-game-status">Tarik item ke dalam kotak kategori...</p>
+
+                            <div class="text-center mt-4 text-white-50 small">
+                                Status:
+                                <span id="hardwareStatus" class="text-warning">
+                                    Menunggu komponen diletakkan...
+                                </span>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div id="game-jaringan-content" class="game-level-view d-none">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div>
-                                <h4 class="fw-bold text-primary mb-1">🌐 Level 3: Istilah & Definisi Jaringan</h4>
-                                <p class="text-muted small mb-0">Pasangkan singkatan jaringan di sebelah kiri ke definisi yang tepat di sebelah kanan!</p>
-                            </div>
-                            <a href="{{ url('/quiz') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
-                        </div>
+            <div id="simulationSoftware" class="simulation-content d-none">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                    <div>
+                        <h4 class="fw-bold text-primary mb-1">
+                            Klasifikasi Software
+                        </h4>
 
-                        <div class="row g-4 align-items-center">
-                            <div class="col-md-4 d-flex flex-column gap-3">
-                                <div class="component-box" draggable="true" id="lan">LAN</div>
-                                <div class="component-box" draggable="true" id="wan">WAN</div>
-                                <div class="component-box" draggable="true" id="wlan">WLAN</div>
-                            </div>
-                            <div class="col-md-8 d-flex flex-column gap-3">
-                                <div class="definition-zone net-zone" data-target="lan">Jaringan lokal terbatas dalam satu ruangan atau gedung rumah/kantor</div>
-                                <div class="definition-zone net-zone" data-target="wan">Jaringan skala geografis luas yang menghubungkan antar negara/benua</div>
-                                <div class="definition-zone net-zone" data-target="wlan">Jaringan lokal nirkabel menggunakan media transmisi gelombang radio/Wi-Fi</div>
-                            </div>
-                        </div>
-                        <div class="alert alert-success mt-4 d-none text-center net-win-message">🎉 Luar biasa! Seluruh misi game selesai dikerjakan!</div>
+                        <p class="text-muted mb-0 small">
+                            Tarik software ke kategori yang sesuai.
+                        </p>
                     </div>
 
+                    <a href="{{ route('quiz.index') }}" class="btn btn-main btn-sm">
+                        Lanjut ke Kuis
+                        <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <h6 class="fw-bold mb-3">
+                            Daftar Software
+                        </h6>
+
+                        <div class="d-flex flex-column gap-2">
+                            <div class="simulation-item" draggable="true" id="softwareWindows" data-type="os">
+                                Windows 11
+                            </div>
+
+                            <div class="simulation-item" draggable="true" id="softwareLinux" data-type="os">
+                                Linux Ubuntu
+                            </div>
+
+                            <div class="simulation-item" draggable="true" id="softwareChrome" data-type="app">
+                                Google Chrome
+                            </div>
+
+                            <div class="simulation-item" draggable="true" id="softwareWord" data-type="app">
+                                Microsoft Word
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success mt-4 d-none" id="softwareSuccess">
+                            <b>Hebat!</b> Semua software sudah dikelompokkan dengan benar.
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="software-box software-zone" data-accept="os">
+                                    <h6 class="text-center fw-bold text-info">
+                                        Sistem Operasi
+                                    </h6>
+
+                                    <hr class="border-secondary">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="software-box software-zone" data-accept="app">
+                                    <h6 class="text-center fw-bold text-warning">
+                                        Software Aplikasi
+                                    </h6>
+
+                                    <hr class="border-secondary">
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-center mt-4 text-muted small" id="softwareStatus">
+                            Tarik software ke kotak kategori yang sesuai.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ route('materi.index') }}" class="btn btn-soft">
+                <i class="bi bi-arrow-left me-1"></i>
+                Kembali ke Materi
+            </a>
+
+            <a href="{{ route('quiz.index') }}" class="btn btn-main ms-2">
+                Lanjut ke Kuis
+                <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
     </div>
+</section>
 
-    <script>
-        function switchGameLevel(level) {
-            document.querySelectorAll('.game-level-view').forEach(view => view.classList.add('d-none'));
-            document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
+<style>
+    .simulation-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-bottom: 18px;
+        margin-bottom: 28px;
+        border-bottom: 1px solid #e5e7eb;
+    }
 
-            if (level === 'hardware') {
-                document.getElementById('game-hardware-content').classList.remove('d-none');
-                document.getElementById('tab-hw-btn').classList.add('active');
-            } else if (level === 'software') {
-                document.getElementById('game-software-content').classList.remove('d-none');
-                document.getElementById('tab-sw-btn').classList.add('active');
-            } else if (level === 'jaringan') {
-                document.getElementById('game-jaringan-content').classList.remove('d-none');
-                document.getElementById('tab-net-btn').classList.add('active');
-            }
+    .simulation-tab {
+        border: none;
+        background: #eef2ff;
+        color: #475569;
+        padding: 10px 18px;
+        border-radius: 14px;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .simulation-tab.active,
+    .simulation-tab:hover {
+        background: #2563eb;
+        color: #ffffff;
+    }
+
+    .simulation-item {
+        background: #eef2ff;
+        border: 2px dashed #2563eb;
+        border-radius: 14px;
+        padding: 12px;
+        text-align: center;
+        cursor: grab;
+        font-weight: 700;
+        color: #1e3a8a;
+        transition: 0.2s;
+    }
+
+    .simulation-item:hover {
+        background: #dbeafe;
+        transform: translateY(-1px);
+    }
+
+    .simulation-item:active {
+        cursor: grabbing;
+    }
+
+    .computer-case {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        border-radius: 22px;
+        min-height: 430px;
+        padding: 24px;
+        color: #ffffff;
+    }
+
+    .drop-zone {
+        border: 2px dashed rgba(255, 255, 255, 0.4);
+        border-radius: 14px;
+        height: 95px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.75);
+        text-align: center;
+        padding: 10px;
+        transition: 0.2s;
+    }
+
+    .drop-zone.hovered {
+        background: rgba(37, 99, 235, 0.28);
+        border-color: #60a5fa;
+        color: #ffffff;
+    }
+
+    .drop-zone.correct {
+        background: rgba(22, 163, 74, 0.18);
+        border-color: #22c55e;
+        color: #86efac;
+        border-style: solid;
+        font-weight: 700;
+    }
+
+    .software-box {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        border-radius: 18px;
+        min-height: 230px;
+        padding: 20px;
+        color: #ffffff;
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        transition: 0.2s;
+    }
+
+    .software-box.hovered {
+        border-color: #60a5fa;
+        background: #1e293b;
+    }
+
+    .software-item-added {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 9px;
+        margin-top: 10px;
+        border-radius: 10px;
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @media (max-width: 576px) {
+        .simulation-tab {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+    function showSimulation(type) {
+        const hardwareContent = document.getElementById('simulationHardware');
+        const softwareContent = document.getElementById('simulationSoftware');
+        const tabHardware = document.getElementById('tabHardware');
+        const tabSoftware = document.getElementById('tabSoftware');
+
+        hardwareContent.classList.add('d-none');
+        softwareContent.classList.add('d-none');
+        tabHardware.classList.remove('active');
+        tabSoftware.classList.remove('active');
+
+        if (type === 'hardware') {
+            hardwareContent.classList.remove('d-none');
+            tabHardware.classList.add('active');
         }
 
-        // Baca otomatis level aktif dari parameter URL data tombol halaman utama
-        window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const initialLevel = urlParams.get('level') || 'hardware';
-            switchGameLevel(initialLevel);
+        if (type === 'software') {
+            softwareContent.classList.remove('d-none');
+            tabSoftware.classList.add('active');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.simulation-item').forEach(function (item) {
+            item.addEventListener('dragstart', function (event) {
+                event.dataTransfer.setData('text/plain', event.target.id);
+            });
         });
 
-        // Event Drag global
-        const allDraggables = document.querySelectorAll('.component-box');
-        allDraggables.forEach(item => {
-            item.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text/plain', e.target.id); });
-        });
+        let hardwareCorrect = 0;
+        const hardwareStatus = document.getElementById('hardwareStatus');
+        const hardwareSuccess = document.getElementById('hardwareSuccess');
 
-        // LOGIK MINI GAME LEVEL 1 (HARDWARE)
-        const hwZones = document.querySelectorAll('.hw-zone');
-        const hwStatus = document.getElementById('hw-game-status');
-        const hwWin = document.querySelector('.hw-win-message');
-        let hwCount = 0;
+        document.querySelectorAll('.hardware-zone').forEach(function (zone) {
+            zone.addEventListener('dragover', function (event) {
+                event.preventDefault();
+                zone.classList.add('hovered');
+            });
 
-        hwZones.forEach(zone => {
-            zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('hovered'); });
-            zone.addEventListener('dragleave', () => zone.classList.remove('hovered'));
-            zone.addEventListener('drop', (e) => {
-                e.preventDefault();
+            zone.addEventListener('dragleave', function () {
                 zone.classList.remove('hovered');
-                const id = e.dataTransfer.getData('text/plain');
+            });
+
+            zone.addEventListener('drop', function (event) {
+                event.preventDefault();
+                zone.classList.remove('hovered');
+
+                const itemId = event.dataTransfer.getData('text/plain');
                 const targetId = zone.getAttribute('data-target');
-                const el = document.getElementById(id);
+                const item = document.getElementById(itemId);
 
-                if (id === targetId) {
+                if (!item) {
+                    return;
+                }
+
+                if (itemId === targetId) {
                     zone.classList.add('correct');
-                    zone.innerHTML = `✅ ${el.innerText}`;
-                    el.remove();
-                    hwStatus.innerText = "Komponen terpasang dengan benar!";
-                    hwStatus.className = "text-success";
-                    hwCount++;
-                    if (hwCount === 3) { hwStatus.innerText = "Selesai!"; hwWin.classList.remove('d-none'); }
+                    zone.innerHTML = 'Benar: ' + item.innerText;
+                    item.remove();
+
+                    hardwareCorrect++;
+                    hardwareStatus.innerText = 'Komponen sudah tepat.';
+                    hardwareStatus.className = 'text-success';
+
+                    if (hardwareCorrect === 3) {
+                        hardwareStatus.innerText = 'Selesai.';
+                        hardwareSuccess.classList.remove('d-none');
+                    }
                 } else {
-                    hwStatus.innerText = "Ups! Posisi komponen fisik salah, coba lagi.";
-                    hwStatus.className = "text-danger";
+                    hardwareStatus.innerText = 'Posisi komponen belum tepat. Coba lagi.';
+                    hardwareStatus.className = 'text-danger';
                 }
             });
         });
 
-        // LOGIK MINI GAME LEVEL 2 (SOFTWARE)
-        const swZones = document.querySelectorAll('.sw-zone');
-        const swStatus = document.getElementById('sw-game-status');
-        const swWin = document.querySelector('.sw-win-message');
-        let swCount = 0;
+        let softwareCorrect = 0;
+        const softwareStatus = document.getElementById('softwareStatus');
+        const softwareSuccess = document.getElementById('softwareSuccess');
 
-        swZones.forEach(box => {
-            box.addEventListener('dragover', (e) => { e.preventDefault(); box.classList.add('hovered'); });
-            box.addEventListener('dragleave', () => box.classList.remove('hovered'));
-            box.addEventListener('drop', (e) => {
-                e.preventDefault();
-                box.classList.remove('hovered');
-                const id = e.dataTransfer.getData('text/plain');
-                const el = document.getElementById(id);
+        document.querySelectorAll('.software-zone').forEach(function (zone) {
+            zone.addEventListener('dragover', function (event) {
+                event.preventDefault();
+                zone.classList.add('hovered');
+            });
 
-                if (el && el.getAttribute('data-type') === box.getAttribute('data-accept')) {
-                    const typedEl = document.createElement('div');
-                    typedEl.className = 'item-in-box';
-                    typedEl.innerText = el.innerText;
-                    box.appendChild(typedEl);
-                    el.remove();
-                    swStatus.innerText = "Kombinasi kategori tepat!";
-                    swStatus.className = "text-center mt-4 text-success fw-bold";
-                    swCount++;
-                    if (swCount === 4) { swWin.classList.remove('d-none'); swStatus.innerText = "Selesai!"; }
-                } else if(el) {
-                    swStatus.innerText = "Salah penempatan kategori software, coba lagi.";
-                    swStatus.className = "text-center mt-4 text-danger small";
+            zone.addEventListener('dragleave', function () {
+                zone.classList.remove('hovered');
+            });
+
+            zone.addEventListener('drop', function (event) {
+                event.preventDefault();
+                zone.classList.remove('hovered');
+
+                const itemId = event.dataTransfer.getData('text/plain');
+                const item = document.getElementById(itemId);
+
+                if (!item) {
+                    return;
+                }
+
+                if (item.getAttribute('data-type') === zone.getAttribute('data-accept')) {
+                    const addedItem = document.createElement('div');
+                    addedItem.className = 'software-item-added';
+                    addedItem.innerText = item.innerText;
+
+                    zone.appendChild(addedItem);
+                    item.remove();
+
+                    softwareCorrect++;
+                    softwareStatus.innerText = 'Kategori sudah tepat.';
+                    softwareStatus.className = 'text-center mt-4 text-success fw-bold';
+
+                    if (softwareCorrect === 4) {
+                        softwareStatus.innerText = 'Selesai.';
+                        softwareSuccess.classList.remove('d-none');
+                    }
+                } else {
+                    softwareStatus.innerText = 'Kategori belum tepat. Coba lagi.';
+                    softwareStatus.className = 'text-center mt-4 text-danger small';
                 }
             });
         });
-
-        // LOGIK MINI GAME LEVEL 3 (JARINGAN)
-        const netZones = document.querySelectorAll('.net-zone');
-        const netWin = document.querySelector('.net-win-message');
-        let netCount = 0;
-
-        netZones.forEach(target => {
-            target.addEventListener('dragover', (e) => { e.preventDefault(); target.classList.add('hovered'); });
-            target.addEventListener('dragleave', () => target.classList.remove('hovered'));
-            target.addEventListener('drop', (e) => {
-                e.preventDefault();
-                target.classList.remove('hovered');
-                const id = e.dataTransfer.getData('text/plain');
-                const el = document.getElementById(id);
-
-                if (el && id === target.getAttribute('data-target')) {
-                    target.classList.add('correct');
-                    target.innerHTML = `✅ <b>${id.toUpperCase()}</b>: ${target.innerText}`;
-                    el.remove();
-                    netCount++;
-                    if (netCount === 3) { netWin.classList.remove('d-none'); }
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+    });
+</script>
+@endsection

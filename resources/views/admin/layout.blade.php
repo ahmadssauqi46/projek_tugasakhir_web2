@@ -1,1 +1,127 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin EduTech</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"><style>:root{--blue:#2563eb;--bg:#f4f8ff;--line:#e2e8f0;--text:#0f172a;--muted:#64748b}.app-shell{display:flex;min-height:100vh}.admin-side{width:260px;background:#1e40af;color:white;padding:22px 14px;position:sticky;top:0;height:100vh}.brand{display:flex;gap:10px;align-items:center;margin-bottom:24px;font-weight:800}.admin-side a{display:flex;gap:10px;align-items:center;color:#dbeafe;text-decoration:none;padding:11px 13px;border-radius:12px;font-weight:700;font-size:14px}.admin-side a:hover,.admin-side a.active{background:rgba(255,255,255,.15);color:white}.admin-main{flex:1;background:var(--bg);padding:34px}.card-soft{background:white;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 35px rgba(15,23,42,.07)}.icon-box{width:42px;height:42px;border-radius:14px;background:#eff6ff;color:var(--blue);display:grid;place-items:center}.muted{color:var(--muted)}.btn-main{background:var(--blue);color:white;border:0;border-radius:12px;font-weight:700}.form-control,.form-select{border-radius:12px}@media(max-width:991px){.app-shell{display:block}.admin-side{position:relative;width:100%;height:auto}.admin-main{padding:20px}}</style></head><body><div class="app-shell"><aside class="admin-side"><div class="brand"><i class="bi bi-cpu"></i><span>EduTech Admin</span></div>@php $menus=[['admin.dashboard','Dashboard','bi-speedometer2'],['admin.students.index','Data Siswa','bi-people'],['admin.teachers.index','Data Guru','bi-person-badge'],['admin.classes.index','Data Kelas','bi-building'],['admin.modules.index','Data Modul','bi-journal-text'],['admin.subbab.index','Data Sub Bab','bi-list-task'],['admin.questions.index','Soal Latihan','bi-ui-checks','latihan'],['admin.questions.index','Soal Quiz','bi-patch-question','quiz'],['admin.questions.index','Soal Evaluasi','bi-clipboard-check','evaluasi'],['admin.results.index','Data Nilai','bi-bar-chart'],['admin.leaderboard','Leaderboard','bi-trophy']]; @endphp @foreach($menus as $m)<a href="{{ isset($m[3]) ? route($m[0], ['type'=>$m[3]]) : route($m[0]) }}"><i class="bi {{ $m[2] }}"></i>{{ $m[1] }}</a>@endforeach<form method="POST" action="{{ route('logout') }}" class="mt-2">@csrf<button class="btn w-100 text-start text-white fw-bold"><i class="bi bi-box-arrow-right"></i> Logout</button></form></aside><main class="admin-main">@yield('admin')</main></div></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin EduTech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="admin-side">
+            <div class="brand">
+                <span class="brand-mark">
+                    <i class="bi bi-cpu"></i>
+                </span>
+
+                <span>
+                    EduTech Admin
+                    <small>Panel Guru</small>
+                </span>
+            </div>
+
+            @php
+                $questionType = request('type');
+                $menus = [
+                    [
+                        'group' => 'Utama',
+                        'route' => 'admin.dashboard',
+                        'label' => 'Dashboard',
+                        'icon' => 'bi-speedometer2',
+                        'active' => request()->routeIs('admin.dashboard'),
+                    ],
+                    [
+                        'group' => 'Data',
+                        'route' => 'admin.students.index',
+                        'label' => 'Data Siswa',
+                        'icon' => 'bi-people',
+                        'active' => request()->routeIs('admin.students.*'),
+                    ],
+                    [
+                        'group' => 'Data',
+                        'route' => 'admin.modules.index',
+                        'label' => 'Data Modul',
+                        'icon' => 'bi-journal-text',
+                        'active' => request()->routeIs('admin.modules.*'),
+                    ],
+                    [
+                        'group' => 'Soal',
+                        'route' => 'admin.questions.index',
+                        'label' => 'Soal Latihan',
+                        'icon' => 'bi-ui-checks',
+                        'params' => ['type' => 'latihan'],
+                        'active' => request()->routeIs('admin.questions.*') && $questionType === 'latihan',
+                    ],
+                    [
+                        'group' => 'Soal',
+                        'route' => 'admin.questions.index',
+                        'label' => 'Soal Quiz',
+                        'icon' => 'bi-patch-question',
+                        'params' => ['type' => 'quiz'],
+                        'active' => request()->routeIs('admin.questions.*') && $questionType === 'quiz',
+                    ],
+                    [
+                        'group' => 'Soal',
+                        'route' => 'admin.questions.index',
+                        'label' => 'Soal Evaluasi',
+                        'icon' => 'bi-clipboard-check',
+                        'params' => ['type' => 'evaluasi'],
+                        'active' => request()->routeIs('admin.questions.*') && $questionType === 'evaluasi',
+                    ],
+                    [
+                        'group' => 'Laporan',
+                        'route' => 'admin.results.index',
+                        'label' => 'Data Nilai',
+                        'icon' => 'bi-bar-chart',
+                        'active' => request()->routeIs('admin.results.*'),
+                    ],
+                ];
+                $lastGroup = null;
+            @endphp
+
+            <nav>
+                @foreach ($menus as $menu)
+                    @if ($lastGroup !== $menu['group'])
+                        <div class="side-label">
+                            {{ $menu['group'] }}
+                        </div>
+
+                        @php
+                            $lastGroup = $menu['group'];
+                        @endphp
+                    @endif
+
+                    <a
+                        href="{{ route($menu['route'], $menu['params'] ?? []) }}"
+                        class="{{ $menu['active'] ? 'active' : '' }}">
+                        <i class="bi {{ $menu['icon'] }}"></i>
+                        <span>{{ $menu['label'] }}</span>
+                    </a>
+                @endforeach
+
+                <div class="side-label">
+                    Akun
+                </div>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <button class="logout-btn" type="submit">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </nav>
+        </aside>
+        <main class="admin-main">
+            @if (session('success'))
+                <div class="alert alert-success card-soft mb-3">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @yield('admin')
+        </main>
+    </div>
+</body>
+</html>

@@ -2,11 +2,12 @@
 
 @section('admin')
 
-<div class="card-soft p-4">
+<div class="card-soft p-4 p-md-5">
 
-<h2 class="fw-bold mb-4">
+<h2 class="fw-bold mb-2">
     {{ $module->exists ? 'Edit Modul' : 'Tambah Modul' }}
 </h2>
+<p class="muted mb-4">Rapikan data modul, ringkasan, ikon, urutan, dan isi materi.</p>
 
 <form
     method="POST"
@@ -66,7 +67,7 @@
             class="form-control"
             name="image"
             value="{{ old('image', $module->image) }}"
-            placeholder="Contoh: 💻"
+            placeholder="Contoh: bi-cpu atau bi-keyboard"
         >
     </div>
 
@@ -128,7 +129,7 @@
 
         <a
             href="{{ route('admin.dashboard') }}"
-            class="btn btn-secondary">
+            class="btn btn-soft">
             Batal
         </a>
 

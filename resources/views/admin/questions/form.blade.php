@@ -2,11 +2,12 @@
 
 @section('admin')
 
-<div class="card-soft p-4">
+<div class="card-soft p-4 p-md-5">
 
-<h2 class="fw-bold mb-4">
+<h2 class="fw-bold mb-2">
     {{ $question->exists ? 'Edit Soal' : 'Tambah Soal' }}
 </h2>
+<p class="muted mb-4">Isi pertanyaan, pilihan jawaban, kunci, dan pembahasan dengan rapi.</p>
 
 <form
     method="POST"
@@ -28,7 +29,7 @@
                 Modul
             </label>
 
-            <select class="form-control" name="module_id">
+            <select class="form-select" name="module_id">
                 <option value="">
                     Evaluasi Umum
                 </option>
@@ -51,7 +52,7 @@
                 Tipe Soal
             </label>
 
-            <select class="form-control" name="type">
+            <select class="form-select" name="type">
 
                 @foreach(['latihan', 'quiz', 'evaluasi'] as $t)
                     <option
@@ -137,7 +138,7 @@
         </label>
 
         <select
-            class="form-control"
+            class="form-select"
             name="correct_answer">
 
             @foreach(['A', 'B', 'C', 'D'] as $a)
@@ -175,7 +176,7 @@
 
         <a
             href="{{ route('admin.questions.index') }}"
-            class="btn btn-secondary">
+            class="btn btn-soft">
             Batal
         </a>
 
