@@ -1126,3 +1126,49 @@ body .navbar .brand-mark {
         gap: 15px;
     }
 }
+/* Contrast cross-check fixes */
+.auth-hero,
+.auth-hero h1,
+.auth-hero h2,
+.auth-hero h3,
+.auth-hero h4,
+.auth-hero h5,
+.auth-hero h6,
+.auth-hero p,
+.auth-hero li {
+    color: #ffffff;
+}
+
+.auth-hero small,
+.auth-hero .muted {
+    color: #dbeafe !important;
+}
+
+.card-soft,
+.mini-card,
+.material-content,
+.question-box,
+.exam-card {
+    color: #1e293b;
+}
+
+.card-soft h1,
+.card-soft h2,
+.card-soft h3,
+.card-soft h4,
+.card-soft h5,
+.card-soft h6,
+.material-content h1,
+.material-content h2,
+.material-content h3,
+.material-content h4 {
+    color: #0f172a;
+}
+
+.btn-main,
+.btn-next-module,
+.chatbot-toggle,
+.chatbot-form button,
+.chat-message.user {
+    color: #ffffff !important;
+}

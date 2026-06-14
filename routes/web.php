@@ -55,5 +55,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'guru'])->group(func
     Route::put('/questions/{question}', [AdminController::class, 'questionUpdate'])->name('questions.update');
     Route::delete('/questions/{question}', [AdminController::class, 'questionDestroy'])->name('questions.destroy');
 
+    Route::get('/results/export', [AdminController::class, 'exportResults'])->name('results.export');
     Route::get('/results', [AdminController::class, 'results'])->name('results.index');
 });

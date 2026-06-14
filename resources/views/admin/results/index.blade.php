@@ -1,4 +1,4 @@
-@extends('admin.layout')
+﻿@extends('admin.layout')
 @section('admin')
 @php
     $results = $results ?? collect();
@@ -10,6 +10,9 @@
         <h2 class="fw-bold mb-1">Riwayat Nilai Siswa</h2>
         <p class="muted mb-0">Pantau riwayat nilai siswa per modul, tipe penilaian, dan nama siswa.</p>
     </div>
+    <a class="btn btn-excel" href="{{ route('admin.results.export', request()->query()) }}">
+        <i class="bi bi-file-earmark-excel me-1"></i> Export Excel
+    </a>
 </div>
 
 <div class="card-soft p-4 mb-4">

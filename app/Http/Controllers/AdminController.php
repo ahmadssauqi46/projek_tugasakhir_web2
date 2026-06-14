@@ -151,7 +151,39 @@ class AdminController extends Controller
 
     public function results(Request $request)
     {
-        $query = AssessmentResult::with(['module', 'user'])->latest();
+        $results = $this->resultsQuery($request)->latest()->get();
+        $modules = Module::orderBy('order')->get();
+        $summary = $results->groupBy(fn ($result) => $result->module?->title ?? 'Evaluasi Akhir')
+            ->map(function ($items, $moduleName) {
+                return [
+                    'module' => $moduleName,
+                    'count' => $items->count(),
+                    'average' => round($items->avg('score') ?? 0),
+                    'highest' => $items->max('score') ?? 0,
+                ];
+            })
+            ->values();
+
+        return view('admin.results.index', compact('results', 'modules', 'summary'));
+    }
+
+    public function exportResults(Request $request)
+    {
+        $results = $this->resultsQuery($request)->oldest()->get();
+        $filename = 'riwayat-nilai-siswa-' . now()->format('Ymd-His') . '.xls';
+        $content = view('admin.results.export', compact('results'))->render();
+
+        return response($content, 200, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
+    }
+
+    private function resultsQuery(Request $request)
+    {
+        $query = AssessmentResult::with(['module', 'user']);
 
         if ($request->filled('module_id')) {
             if ($request->module_id === 'evaluasi') {
@@ -175,19 +207,6 @@ class AdminController extends Controller
             });
         }
 
-        $results = $query->get();
-        $modules = Module::orderBy('order')->get();
-        $summary = $results->groupBy(fn ($result) => $result->module?->title ?? 'Evaluasi Akhir')
-            ->map(function ($items, $moduleName) {
-                return [
-                    'module' => $moduleName,
-                    'count' => $items->count(),
-                    'average' => round($items->avg('score') ?? 0),
-                    'highest' => $items->max('score') ?? 0,
-                ];
-            })
-            ->values();
-
-        return view('admin.results.index', compact('results', 'modules', 'summary'));
+        return $query;
     }
 }

@@ -314,3 +314,57 @@
                 padding: 16px;
             }
         }
+/* Contrast and export button polish */
+.btn-excel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    color: #ffffff !important;
+    font-weight: 900;
+    background: linear-gradient(135deg, #15803d, #22c55e);
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 14px 28px rgba(21, 128, 61, .20);
+    white-space: nowrap;
+}
+
+.btn-excel:hover {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #166534, #16a34a);
+}
+
+.card-soft,
+.mini-stat,
+.table,
+.table td,
+.table th,
+.form-control,
+.form-select {
+    color: #111827;
+}
+
+.card-soft .muted,
+.mini-stat .muted,
+.page-title .muted {
+    color: #475569 !important;
+}
+
+.table thead th {
+    color: #0f172a;
+    background: #f8fbff;
+}
+
+.badge.bg-primary,
+.btn-main,
+.btn-excel {
+    color: #ffffff !important;
+}
+
+@media (max-width: 576px) {
+    .btn-excel {
+        width: 100%;
+        margin-top: 12px;
+    }
+}

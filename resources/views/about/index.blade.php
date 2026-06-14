@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('content')
 <section class="section">
     <div class="container">
@@ -21,13 +21,13 @@
             <div class="col-lg-7">
                 <div class="card-soft p-4 p-md-5 h-100">
                     <h5 class="fw-bold text-primary">Profil Website</h5>
-                    <p>EduTech Learning adalah media pembelajaran berbasis web untuk siswa SMA kelas 10–11 yang berfokus pada pengenalan dasar komputer, khususnya hardware dan software.</p>
+                    <p>EduTech Learning adalah media pembelajaran berbasis web untuk siswa SMA kelas 10â€“11 yang berfokus pada pengenalan dasar komputer, khususnya hardware dan software.</p>
 
                     <h5 class="fw-bold text-primary mt-4">Tujuan Pengembangan</h5>
                     <p>Website ini dikembangkan untuk membantu siswa belajar secara bertahap, interaktif, dan terukur melalui materi, latihan, quiz, evaluasi, serta progress belajar.</p>
 
                     <h5 class="fw-bold text-primary mt-4">Target Pengguna</h5>
-                    <p>Target pengguna adalah siswa SMA kelas 10–11 dan guru yang membutuhkan media pembelajaran sederhana, rapi, dan mudah digunakan.</p>
+                    <p>Target pengguna adalah siswa SMA kelas 10â€“11 dan guru yang membutuhkan media pembelajaran sederhana, rapi, dan mudah digunakan.</p>
 
                     <h5 class="fw-bold text-primary mt-4">Fitur Media Pembelajaran</h5>
                     <p>Fitur utama meliputi materi 7 sub bab, detail materi, latihan, quiz, evaluasi, dashboard siswa, dan dashboard admin/guru.</p>
@@ -35,6 +35,8 @@
                     <h5 class="fw-bold text-primary mt-4">Fitur Gamification</h5>
                     <p>Gamification diterapkan melalui progress bar, poin, badge, status materi selesai/terkunci, serta leaderboard untuk meningkatkan motivasi belajar.</p>
 
+                    <h5 class="fw-bold text-primary mt-4">Kontak Keluhan</h5>
+                    <p class="mb-0">Jika mengalami kendala saat menggunakan website, silakan hubungi kontak keluhan melalui WhatsApp: <a class="fw-bold text-decoration-none" href="https://wa.me/6282154030108" target="_blank" rel="noopener">082154030108</a>.</p>
                     <h5 class="fw-bold text-primary mt-4">Daftar Pustaka</h5>
                     <ul class="mb-0 ps-3">
                         <li>Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi. (2021). Informatika untuk SMA Kelas X.</li>
@@ -47,3 +49,4 @@
     </div>
 </section>
 @endsection
+
